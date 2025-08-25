@@ -7,6 +7,7 @@ const todoInput = document.getElementById('todo-input');
 const todoList = document.getElementById('todo-list');
 
 listTitle.textContent = listName;
+document.title = `${listName} - Ultra To-Do List`;
 
 let lists = JSON.parse(localStorage.getItem('lists')) || {};
 let currentList = lists[listName] || [];
@@ -25,98 +26,60 @@ todoForm.addEventListener('submit', function(e) {
 
 function addTaskToDOM(taskObj) {
   const item = document.createElement('li');
-  item.style.display = 'flex';
-  item.style.alignItems = 'center';
-  item.style.padding = '8px 8px';
-  const left = document.createElement('div');
-  left.style.display = 'flex';
-  left.style.alignItems = 'center';
-  left.style.flexGrow = '1';
-  left.style.gap = '10px';
-  
-
-
-  const checkbox = document.createElement('input');
-  checkbox.type = 'checkbox';
-  checkbox.checked = taskObj.completed;
-  checkbox.onchange = function () {
-    taskObj.completed = checkbox.checked;
-    span.style.textDecoration = taskObj.completed? 'line-through': 'none';
-    saveList();
-    checkIfAllCompleted();
-};
 
   const span = document.createElement('span');
   span.textContent = taskObj.text;
-  span.style.textDecoration = taskObj.completed? 'line-through': 'none';
+  span.classList.toggle('completed', taskObj.completed);
+  
 
-  left.appendChild(checkbox);
-  left.appendChild(span);
 
-  const menu = document.createElement('div');
-  menu.style.position = 'relative';
 
-  const menuBtn = document.createElement('button');
-  menuBtn.textContent = '⋮';
-  menuBtn.onclick = function () {
-    menuOptions.style.display = menuOptions.style.display === 'block'? 'none': 'block';
-  };
-  menuBtn.style.background = 'none';
-
-  menuBtn.style.border = 'none';
-  menuBtn.style.padding = '0';
-  menuBtn.style.color = 'var(--text-color)';
-
-  const menuOptions = document.createElement('ul');
-  menuOptions.style.position = 'absolute';
-  menuOptions.style.top = '25px';
-  menuOptions.style.right = '0';
-  menuOptions.style.background = 'var(--object-bg)';
-  menuOptions.style.border = '1px solid #ccc';
-  menuOptions.style.padding = '5px';
-  menuOptions.style.listStyle = 'none';
-  menuOptions.style.display = 'none';
-  menuOptions.style.borderRadius = '10px';
-  menuOptions.style.zIndex = '1000';
-  menuOptions.style.width = '100px';
-  menuOptions.style.boxShadow = '0 2px 5px rgba(0,0,0,0.2)';
-
-  const editOption = document.createElement('li');
-  editOption.textContent = 'Edit';
-  editOption.style.cursor = 'pointer';
-  editOption.style.marginBottom = '5px';
-  editOption.style.padding = '5px';
-  editOption.onclick = function () {
-    const newText = prompt('Edit your task:', taskObj.text);
-    if (newText!== null && newText.trim()!== '') {
-      taskObj.text = newText;
-      span.textContent = newText;
-      saveList();
-}
-    menuOptions.style.display = 'none';
+  const completeBtn = document.createElement('button');
+  completeBtn.innerHTML = '<i class="fa-solid fa-check"></i>';
+  completeBtn.style.backgroundColor = '#41b945ff';
+  completeBtn.onclick = function() {
+    taskObj.completed =!taskObj.completed;
+    span.classList.toggle('completed', taskObj.completed);
+    saveList();
+    checkIfAllCompleted();
+    updateProgress();
 };
 
-  const deleteOption = document.createElement('li');
-  deleteOption.textContent = 'Delete';
-  deleteOption.style.cursor = 'pointer';
-  deleteOption.style.marginBottom = '5px';
-  deleteOption.style.padding = '5px';
+const editBtn = document.createElement("button");
+    editBtn.innerHTML = '<i class="fa-solid fa-pen-to-square"></i>';
+    editBtn.style.backgroundColor = '#f0aa3aff';
+    editBtn.addEventListener("click", () => {
+      const newText = prompt("Edit your task:", taskSpan.textContent);
+      if (newText!== null && newText.trim()!== "") {
+        taskSpan.textContent = newText.trim();
+}
+});
 
-  deleteOption.onclick = function () {
+
+
+  const deleteBtn = document.createElement('button');
+  deleteBtn.innerHTML = '<i class="fa-solid fa-trash"></i>';
+  deleteBtn.style.backgroundColor = '#c0392b';
+  deleteBtn.onclick = function() {
     todoList.removeChild(item);
     currentList = currentList.filter(t => t!== taskObj);
     saveList();
-    checkIfAllCompleted();
+    updateProgress();
 };
-
-  menuOptions.appendChild(editOption);
-  menuOptions.appendChild(deleteOption);
-  menu.appendChild(menuBtn);
-  menu.appendChild(menuOptions);
-
-  item.appendChild(left);
-  item.appendChild(menu);
-  todoList.appendChild(item);
+// Edit functionality
+editBtn.onclick = function() {
+  const newText = prompt("Edit your task:", span.textContent);
+  if (newText !== null && newText.trim() !== "") {
+    span.textContent = newText.trim();
+    taskObj.text = newText.trim();
+    saveList();
+  }
+};
+item.appendChild(completeBtn);
+item.appendChild(span);
+item.appendChild(editBtn);
+item.appendChild(deleteBtn);
+todoList.appendChild(item);
 }
 
 function saveList() {
@@ -124,22 +87,56 @@ function saveList() {
   localStorage.setItem('lists', JSON.stringify(lists));
 }
 
+
+
 function checkIfAllCompleted() {
   const allDone = currentList.length> 0 && currentList.every(t => t.completed);
   if (allDone && Notification.permission === 'granted') {
-    new Notification('✅ List Completed', {
-      body: `${listName} is fully completed! 🎉`
-});
-}
-}
-// Notification permission request on page load
-document.addEventListener('DOMContentLoaded', () => {
-  if ('Notification' in window) {
-    if (Notification.permission!== 'granted') {
-      Notification.requestPermission();
+    new Notification('✅ List Completed', { body: `${listName} is fully completed! 🎉`});
 }
 }
 
-  currentList.forEach(addTaskToDOM);
+if (Notification.permission!== 'granted') {
+  Notification.requestPermission();
+}
+
+currentList.forEach(addTaskToDOM);
+
+
+// Fullscreen functionality
+
+const fullscreenBtn = document.getElementById('fullscreen-btn');
+
+fullscreenBtn.addEventListener('click', () => {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen().catch((err) => {
+      alert(`Error attempting to enable full-screen mode: ${err.message}`);
+    });
+  } else {
+    document.exitFullscreen();
+  }
 });
 
+
+//progress functionality
+function updateProgress() {
+  const tasks = document.querySelectorAll("#todo-list li");
+  let completed = 0;
+
+  tasks.forEach(task => {
+    const span = task.querySelector("span");
+    if (span && span.classList.contains("completed")) {
+      completed++;
+}
+});
+
+  const progressDisplay = document.getElementById("progress-display");
+  progressDisplay.textContent = `Progress: ${completed} / ${tasks.length} tasks completed`;
+
+  // Optional color feedback
+  if (completed === tasks.length && tasks.length> 0) {
+    progressDisplay.style.color = "#64f368ff";
+} else {
+    progressDisplay.style.color = "white";
+}
+}
