@@ -1,5 +1,5 @@
-# todo-app
-<h1>📍 Source code of <a href="https://ultratodolist.pages.dev">Ultra To-Do List</a>🤩</h1>
+
+<h2>📍 Source code of <a href="https://ultratodolist.pages.dev">Ultra To-Do List</a> 🤩</h2>
 
 <h2>This contains the following:</h2>
 <ul>
