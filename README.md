@@ -1,11 +1,6 @@
 
-<h2>📍 Source code of <a href="https://ultratodolist.pages.dev">Ultra To-Do List</a> 🤩</h2>
+<h2>📍 Source code of a beautiful To-Do list web app 🤩</h2>
 
-<h2>This contains the following:</h2>
-<ul>
-  <li>List.html</li>
-   <li>style.css</li>
-  <li>list.js</li>
-</ul>
+--
 
 <h2>Thank you.</h2>
