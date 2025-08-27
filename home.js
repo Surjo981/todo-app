@@ -5,7 +5,7 @@ const listLinks = document.getElementById('list-links');
 let lists = JSON.parse(localStorage.getItem('lists')) || {};
 
 function renderListLinks() {
-  listLinks.innerHTML = '';
+  listLinks.innerHTML = ''; 
   Object.keys(lists).forEach(title => {
     const li = document.createElement('li');
 
@@ -58,4 +58,5 @@ fullscreenBtn.addEventListener('click', () => {
   } else {
     document.exitFullscreen();
   }
+
 });
