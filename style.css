@@ -1,12 +1,12 @@
+@import url("https://fonts.maateen.me/baloo-da-2/font.css");
 /* default styleing */
 * {
   box-sizing: border-box;
 }
 
-@import url("https://fonts.maateen.me/baloo-da-2/font.css");
 :root {
   --base-bg: #19191b;
-  --object-bg: #101425;
+  --object-bg: #0f0f1a;
   --text-color: #ffffff;
   --secondary-text: #a4a5b8;
   --primary-color: #a8bdfd;
@@ -14,12 +14,12 @@
   --link-color: #4fc3f7;
   --abbr-color: #b57cff;
   --sub-topic-color: #c6abec;
-  transition: ease-in-out 0.1s;
+  transition: ease-in-out 0.2s;
 }
 
 .darkmode {
   --base-bg: #f7f5ff;
-  --object-bg: #e8e9ed;
+  --object-bg: #f3e8ffe7;
   --text-color: #1d1c1c;
   --secondary-text: #232738;
   --primary-color: #3a435d;
@@ -27,7 +27,7 @@
   --link-color: #1670ee;
   --abbr-color: #7d50bd;
   --sub-topic-color: #9368cf;
-  transition: ease-in-out 0.1s;
+  transition: ease-in-out 0.2s;
 }
 
 body {
@@ -74,8 +74,8 @@ body {
   justify-content: center;
   align-items: center;
   position: fixed;
-  left: 20px;
-  top: 20px;
+  right: 20px;
+  bottom: 20px;
   cursor: pointer;
   animation: transition 0.3s ease-in-out;
   opacity: 0.4;
@@ -129,6 +129,7 @@ button {
   margin-left: 10px;
   margin-bottom: 7px;
   font-family: "Baloo Da 2", sans-serif;
+  cursor: pointer;
 }
 input {
   font-size: 20px;
@@ -141,6 +142,7 @@ input {
 
 #back {
   margin-top: 50px;
+  cursor: pointer;
 }
 
 ul {
@@ -155,52 +157,127 @@ a {
 #heading {
   color: var(--abbr-color);
   font-size: 40px;
+  text-align: center;
 }
 ul {
   list-style: none;
   padding: 0;
   margin-top: 20px;
 }
-.menu-btn {
-  background: none;
-  border: none;
-  font-size: 18px;
-  cursor: pointer;
+#todo-form {
+  margin-bottom: 20px;
 }
-.task-menu {
-  position: absolute;
-  top: 30px;
-  right: 0;
-  background-color: #f9f9f9;
-  border: 1px solid #ccc;
-  padding: 5px;
-  z-index: 10;
+
+li {
+  background-color: var(--object-bg);
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 10px;
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  transition: ease-in-out 0.1s;
+  gap: 10px;
 }
 
-.task-menu button {
-  background: none;
+#todo-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--object-bg);
+  padding: 10px 15px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  color: var(--text-color);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  font-weight: 600;
+}
+
+#todo-list li span {
+  flex-grow: 1;
+  margin-right: 15px;
+  word-break: break-word;
+}
+
+#todo-list li button {
+  width: 40px;
+  height: 40px;
+  margin-left: 7px;
   border: none;
-  padding: 5px;
-  text-align: left;
+  border-radius: 20%;
+  color: white;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.hidden {
-  display: none;
+#todo-list li button i {
+  font-size: 20px;
 }
 
+#fullscreen-btn {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  background-color: var(--object-bg);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  right: 80px;
+  bottom: 20px;
+  cursor: pointer;
+  animation: transition 0.3s ease-in-out;
+  opacity: 0.4;
+}
+#fullscreen-btn:hover {
+  opacity: 0.8;
+  transition: ease-in-out 0.3s;
+}
+#fullscreen-btn:active {
+  opacity: 1;
+  transition: ease-in-out 0.1s;
+}
+#fullscreen-btn svg {
+  fill: var(--primary-color);
+}
+#list-title {
+  font-size: 20px;
+  padding: 5px;
+}
+
+span.completed {
+  text-decoration: line-through;
+  color: gray;
+}
+
+#progress-display {
+  font-size: 18px;
+  margin-top: 10px;
+  font-weight: 500;
+}
+#create-list-btn {
+  font-size: 15px;
+  padding: 10px 10px;
+  font-weight: 500;
+}
+#list-name {
+  text-align: center;
+}
+#list-links li button {
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20%;
+  font-size: 20px;
+}
 /*responsive */
 
 /*Mobile*/
 @media screen and (min-width: 220px) and (max-width: 600px) {
-  img {
-    width: 70vw;
-    max-width: 300px;
-    height: auto;
-  }
-
   h1 {
     font-size: vw(5);
     margin-top: 15px;
@@ -215,18 +292,19 @@ ul {
     padding: 5px 10px;
   }
 
-  #theme-switch {
-    margin-top: 30px;
-    width: 45px;
-    height: 45px;
-    top: -10px;
-    right: 5px;
-    left: auto;
-  }
   input {
-    font-size: 18px;
+    font-size: 19px;
     margin-bottom: 10px;
     display: inline;
+  }
+
+  #todo-list li {
+    font-size: 18px;
+  }
+
+  #list-title {
+    font-size: 17px;
+    padding: 3px;
   }
 }
 
@@ -251,7 +329,7 @@ ul {
     font-size: vw(5.5);
   }
 
-  li {
+  #todo-list li {
     font-size: 18px;
   }
 
@@ -267,13 +345,6 @@ ul {
     padding: 7px 13px;
   }
 
-  #theme-switch {
-    height: 50px;
-    width: 50px;
-    top: 20px;
-    right: 20px;
-    left: auto;
-  }
   input {
     width: 300px;
   }
