@@ -1,4 +1,4 @@
-@import url("https://fonts.maateen.me/baloo-da-2/font.css");
+@import url("https://fonts.googleapis.com/css2?family=Baloo+Da+2:wght@400..800&family=Varela+Round&display=swap");
 /* default styleing */
 * {
   box-sizing: border-box;
@@ -14,25 +14,28 @@
   --link-color: #4fc3f7;
   --abbr-color: #b57cff;
   --sub-topic-color: #c6abec;
+  --green: #64f368ff;
+  --item: rgba(255, 255, 255, 0.05);
   transition: ease-in-out 0.2s;
 }
 
 .darkmode {
   --base-bg: #f7f5ff;
   --object-bg: #f3e8ffe7;
-  --text-color: #1d1c1c;
+  --text-color: #183153;
   --secondary-text: #232738;
   --primary-color: #3a435d;
   --button-color: #594adf;
   --link-color: #1670ee;
   --abbr-color: #7d50bd;
   --sub-topic-color: #9368cf;
+  --green: rgb(49, 184, 53);
+  --item: rgba(202, 181, 250, 0.137);
   transition: ease-in-out 0.2s;
 }
 
 body {
-  margin-top: 20px;
-  font-family: "Baloo Da 2", system-ui;
+  font-family: "Varela Round", system-ui;
   background-color: var(--base-bg);
   color: var(--text-color);
   margin: 0;
@@ -43,9 +46,9 @@ body {
   cursor: default;
   display: flex;
   align-items: center;
-
   flex-direction: column;
 }
+
 ::-webkit-scrollbar {
   width: 7px;
 }
@@ -119,8 +122,10 @@ body {
 
 /* main styling */
 
-button {
-  background-color: var(--button-color);
+#create-list-btn,
+#add-task-btn,
+#back {
+  background: linear-gradient(45deg, #6c3fbf 20%, #4fc3f7);
   color: white;
   font-size: 17px;
   border: none;
@@ -130,19 +135,48 @@ button {
   margin-bottom: 7px;
   font-family: "Baloo Da 2", sans-serif;
   cursor: pointer;
+  transition: ease-in-out 0.5s;
 }
+#create-list-btn:hover,
+#add-task-btn:hover,
+#back:hover {
+  background: linear-gradient(45deg, #6c3fbf, #4fc3f7);
+  transition: ease-in-out 1s;
+}
+#create-list-btn:active,
+#add-task-btn:active,
+#back:active {
+  transform: scale(0.95);
+}
+
+button {
+  border: none;
+}
+
+button:hover {
+  transform: scale(1.05);
+  transition: ease-in-out 0.1s;
+}
+
+button:active {
+  transform: scale(0.95);
+  transition: ease-in-out 0.1s;
+}
+
 input {
   font-size: 20px;
   font-family: "Baloo Da 2", sans-serif;
   border-radius: 10px;
   padding-left: 5px;
   border: none;
-  width: 60%;
+  width: 59%;
 }
 
 #back {
-  margin-top: 50px;
+  margin: auto 0;
   cursor: pointer;
+  display: block;
+  margin-bottom: 20px;
 }
 
 ul {
@@ -155,9 +189,12 @@ a {
 }
 
 #heading {
-  color: var(--abbr-color);
   font-size: 40px;
   text-align: center;
+}
+abbr {
+  color: var(--abbr-color);
+  text-decoration: none;
 }
 ul {
   list-style: none;
@@ -191,6 +228,12 @@ li {
   color: var(--text-color);
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   font-weight: 600;
+}
+
+#top-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
 }
 
 #todo-list li span {
@@ -252,11 +295,6 @@ span.completed {
   color: gray;
 }
 
-#progress-display {
-  font-size: 18px;
-  margin-top: 10px;
-  font-weight: 500;
-}
 #create-list-btn {
   font-size: 15px;
   padding: 10px 10px;
@@ -273,6 +311,26 @@ span.completed {
   justify-content: center;
   border-radius: 20%;
   font-size: 20px;
+}
+.info {
+  font-size: 15px;
+  color: var(--abbr-color);
+  font-family: "Varela Round", sans-serif;
+  text-align: center;
+  margin-top: 20px;
+  text-shadow: 0 1px 1px 5px rgba(0, 0, 0, 0.7);
+  font-weight: bold;
+  margin: auto 0;
+}
+
+.info a {
+  color: var(--link-color);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.info a:hover {
+  text-decoration: underline;
 }
 /*responsive */
 
@@ -305,6 +363,10 @@ span.completed {
   #list-title {
     font-size: 17px;
     padding: 3px;
+  }
+  .info {
+    font-size: 14px;
+    margin-top: 15px;
   }
 }
 
@@ -358,5 +420,9 @@ span.completed {
   }
   input {
     width: 350px;
+  }
+
+  #todo-list li {
+    font-size: 18px;
   }
 }
